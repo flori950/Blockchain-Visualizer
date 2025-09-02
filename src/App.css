@@ -67,19 +67,10 @@
   height: 100px;
   transform-style: preserve-3d;
   animation: cubeRotate 12s linear infinite;
-  transition: transform 0.1s ease;
-  cursor: grab;
-  user-select: none;
-}
-
-.cube:active {
-  cursor: grabbing;
-  animation-play-state: paused;
 }
 
 .cube:hover {
   animation-play-state: paused;
-  filter: brightness(1.1);
 }
 
 .cube-face {

@@ -9,36 +9,15 @@ interface BlockProps {
   onSelect: () => void;
   onMine: () => void;
   onUpdateData: (data: string) => void;
-  onDragStart?: (index: number) => void;
-  onDragEnd?: () => void;
-  onDragOver?: (index: number) => void;
-  onDrop?: (dragIndex: number, dropIndex: number) => void;
-  isDragging?: boolean;
-  isDragOver?: boolean;
 }
 
-export function Block({
-  block,
-  isSelected,
-  onSelect,
-  onMine,
-  onUpdateData,
-  onDragStart,
-  onDragEnd,
-  onDragOver,
-  onDrop,
-  isDragging = false,
-  isDragOver = false,
-}: BlockProps) {
+export function Block({ block, isSelected, onSelect, onMine, onUpdateData }: BlockProps) {
   const { state } = useBlockchain();
   const miningProgress = state.miningProgress[block.index] || 0;
-  const isGenesis = block.index === 0;
 
   const getBlockClass = () => {
     let className = 'block';
     if (isSelected) className += ' selected';
-    if (isDragging) className += ' dragging';
-    if (isDragOver) className += ' drag-over';
     if (block.isMining) className += ' mining';
     else if (block.isMined && block.isValid) className += ' valid mined';
     else if (block.isMined && !block.isValid) className += ' invalid mined';
@@ -69,34 +48,6 @@ export function Block({
     onUpdateData(event.target.value);
   };
 
-  const handleDragStart = (e: React.DragEvent) => {
-    if (isGenesis) {
-      e.preventDefault();
-      return;
-    }
-    onDragStart?.(block.index);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', block.index.toString());
-  };
-
-  const handleDragEnd = () => {
-    onDragEnd?.();
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    onDragOver?.(block.index);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    const dragIndex = parseInt(e.dataTransfer.getData('text/plain'));
-    if (dragIndex !== block.index && onDrop) {
-      onDrop(dragIndex, block.index);
-    }
-  };
-
   const formatData = () => {
     if (typeof block.data === 'string') {
       return block.data;
@@ -112,26 +63,12 @@ export function Block({
   };
 
   return (
-    <div
-      className={getBlockClass()}
-      onClick={onSelect}
-      draggable={!isGenesis}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      style={{ cursor: isGenesis ? 'pointer' : 'grab' }}
-    >
+    <div className={getBlockClass()} onClick={onSelect}>
       <div className="block-header">
         <h3>Block #{block.index}</h3>
         <div className="block-status" style={{ color: getStatusColor() }}>
           {getBlockStatus()}
         </div>
-        {!isGenesis && (
-          <span className="drag-indicator" title="Drag to reorder">
-            ⋮⋮
-          </span>
-        )}
         {block.index > 0 && (
           <button
             className={`mine-button ${block.isMined ? 'mined' : ''}`}

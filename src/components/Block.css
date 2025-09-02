@@ -35,38 +35,6 @@
   left: 100%;
 }
 
-.block.dragging {
-  opacity: 0.6;
-  transform: rotate(3deg) scale(0.95);
-  cursor: grabbing !important;
-  z-index: 1000;
-  border-color: #4ecdc4;
-  box-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
-}
-
-.block.drag-over {
-  border-color: #4ecdc4;
-  box-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
-  background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), #1a1a2e 100%);
-  transform: scale(1.05);
-}
-
-.drag-indicator {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 18px;
-  cursor: grab;
-  user-select: none;
-  transition: color 0.3s ease;
-  z-index: 10;
-}
-
-.drag-indicator:hover {
-  color: rgba(255, 255, 255, 0.8);
-}
-
 .block.selected {
   border-color: #4ecdc4;
   box-shadow:

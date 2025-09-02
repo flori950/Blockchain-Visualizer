@@ -1,5 +1,4 @@
 import { HelmetProvider } from 'react-helmet-async';
-import { useState } from 'react';
 import { BlockchainProvider } from './context/BlockchainContext';
 import { BlockchainVisualization } from './components/BlockchainVisualization';
 import { BlockVisualization3D } from './components/BlockVisualization3D';
@@ -9,32 +8,6 @@ import { Footer } from './components/Footer';
 import './App.css';
 
 function App() {
-  const [cubeRotation, setCubeRotation] = useState({ x: 0, y: 0 });
-  const [isMouseDown, setIsMouseDown] = useState(false);
-  const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsMouseDown(true);
-    setLastMousePos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isMouseDown) return;
-
-    const deltaX = e.clientX - lastMousePos.x;
-    const deltaY = e.clientY - lastMousePos.y;
-
-    setCubeRotation((prev) => ({
-      x: prev.x - deltaY * 0.5,
-      y: prev.y + deltaX * 0.5,
-    }));
-
-    setLastMousePos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseUp = () => {
-    setIsMouseDown(false);
-  };
   return (
     <HelmetProvider>
       <BlockchainProvider>
@@ -45,16 +18,7 @@ function App() {
               <div className="header-main">
                 <div className="header-icon">
                   <div className="cube-container">
-                    <div
-                      className="cube"
-                      style={{
-                        transform: `rotateX(${cubeRotation.x}deg) rotateY(${cubeRotation.y}deg)`,
-                      }}
-                      onMouseDown={handleMouseDown}
-                      onMouseMove={handleMouseMove}
-                      onMouseUp={handleMouseUp}
-                      onMouseLeave={handleMouseUp}
-                    >
+                    <div className="cube">
                       <div className="cube-face front">
                         <div className="block-number">#0</div>
                         <div className="block-label">Genesis</div>

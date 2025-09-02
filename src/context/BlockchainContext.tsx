@@ -12,7 +12,6 @@ type BlockchainAction =
   | { type: 'UPDATE_BLOCK_DATA'; payload: { blockIndex: number; data: string | Transaction[] } }
   | { type: 'VALIDATE_CHAIN' }
   | { type: 'CREATE_FORK'; payload: { fromBlockIndex: number; data: string | Transaction[] } }
-  | { type: 'REORDER_BLOCKS'; payload: { fromIndex: number; toIndex: number } }
   | { type: 'RESET_CHAIN' };
 
 interface BlockchainContextType {
@@ -23,7 +22,6 @@ interface BlockchainContextType {
   selectBlock: (blockIndex: number | null) => void;
   updateBlockData: (blockIndex: number, data: string | Transaction[]) => void;
   createFork: (fromBlockIndex: number, data: string | Transaction[]) => void;
-  reorderBlocks: (fromIndex: number, toIndex: number) => void;
   resetChain: () => void;
 }
 
@@ -227,57 +225,6 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
       };
     }
 
-    case 'REORDER_BLOCKS': {
-      const { fromIndex, toIndex } = action.payload;
-
-      // Don't allow reordering the genesis block
-      if (fromIndex === 0 || toIndex === 0) {
-        return state;
-      }
-
-      const blocks = [...state.blocks];
-      const [movedBlock] = blocks.splice(fromIndex, 1);
-      blocks.splice(toIndex, 0, movedBlock);
-
-      // Reindex all blocks and update their indices
-      const reindexedBlocks = blocks.map((block, index) => ({
-        ...block,
-        index,
-        isMined: false,
-        nonce: 0,
-        isValid: index === 0, // Only genesis block remains valid after reordering
-      }));
-
-      // Update previous hashes to maintain chain integrity
-      const updatedBlocks = reindexedBlocks.map((block, index) => {
-        if (index === 0) {
-          return block; // Genesis block unchanged
-        }
-
-        const newBlock = {
-          ...block,
-          previousHash: reindexedBlocks[index - 1].hash,
-        };
-
-        // Recalculate hash for the new position
-        newBlock.hash = BlockchainUtils.calculateHash(
-          newBlock.index,
-          newBlock.timestamp,
-          newBlock.data,
-          newBlock.previousHash,
-          newBlock.nonce
-        );
-
-        return newBlock;
-      });
-
-      return {
-        ...state,
-        blocks: updatedBlocks,
-        isValidChain: false, // Chain becomes invalid after reordering
-      };
-    }
-
     default:
       return state;
   }
@@ -342,10 +289,6 @@ export function BlockchainProvider({ children }: { children: React.ReactNode }) 
     dispatch({ type: 'RESET_CHAIN' });
   }, []);
 
-  const reorderBlocks = useCallback((fromIndex: number, toIndex: number) => {
-    dispatch({ type: 'REORDER_BLOCKS', payload: { fromIndex, toIndex } });
-  }, []);
-
   return (
     <BlockchainContext.Provider
       value={{
@@ -356,7 +299,6 @@ export function BlockchainProvider({ children }: { children: React.ReactNode }) 
         selectBlock,
         updateBlockData,
         createFork,
-        reorderBlocks,
         resetChain,
       }}
     >

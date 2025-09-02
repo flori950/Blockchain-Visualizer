@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Block } from './Block';
 import { useBlockchain } from '../hooks/useBlockchain';
 import './BlockchainVisualization.css';
 
 export function BlockchainVisualization() {
-  const { state, selectBlock, mineBlock, updateBlockData, reorderBlocks } = useBlockchain();
-  const [draggedBlockIndex, setDraggedBlockIndex] = useState<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const { state, selectBlock, mineBlock, updateBlockData } = useBlockchain();
 
   const handleBlockSelect = (blockIndex: number) => {
     selectBlock(state.selectedBlock === blockIndex ? null : blockIndex);
@@ -18,28 +16,6 @@ export function BlockchainVisualization() {
 
   const handleUpdateBlockData = (blockIndex: number, data: string) => {
     updateBlockData(blockIndex, data);
-  };
-
-  const handleDragStart = (blockIndex: number) => {
-    setDraggedBlockIndex(blockIndex);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedBlockIndex(null);
-    setDragOverIndex(null);
-  };
-
-  const handleDragOver = (blockIndex: number) => {
-    setDragOverIndex(blockIndex);
-  };
-
-  const handleDrop = (dragIndex: number, dropIndex: number) => {
-    if (dragIndex !== dropIndex && dragIndex > 0) {
-      // Can't move genesis block
-      reorderBlocks(dragIndex, dropIndex);
-    }
-    setDraggedBlockIndex(null);
-    setDragOverIndex(null);
   };
 
   return (
@@ -67,12 +43,6 @@ export function BlockchainVisualization() {
               onSelect={() => handleBlockSelect(index)}
               onMine={() => handleMineBlock(index)}
               onUpdateData={(data) => handleUpdateBlockData(index, data)}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-              isDragging={draggedBlockIndex === index}
-              isDragOver={dragOverIndex === index}
             />
             {index < state.blocks.length - 1 && (
               <div
