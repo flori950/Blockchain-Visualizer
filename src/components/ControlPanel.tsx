@@ -12,7 +12,7 @@ export function ControlPanel() {
   const [newTransaction, setNewTransaction] = useState({
     from: '',
     to: '',
-    amount: 0
+    amount: 0,
   });
 
   const handleAddBlock = () => {
@@ -63,7 +63,7 @@ export function ControlPanel() {
 
       <div className="panel-section">
         <h3>Add New Block</h3>
-        
+
         <div className="data-mode-selector">
           <label>
             <input
@@ -93,7 +93,7 @@ export function ControlPanel() {
               placeholder="Enter block data..."
               rows={3}
             />
-            <button 
+            <button
               onClick={handleAddBlock}
               disabled={!newBlockData.trim()}
               className="add-block-btn"
@@ -108,23 +108,25 @@ export function ControlPanel() {
                 type="text"
                 placeholder="From address"
                 value={newTransaction.from}
-                onChange={(e) => setNewTransaction({...newTransaction, from: e.target.value})}
+                onChange={(e) => setNewTransaction({ ...newTransaction, from: e.target.value })}
               />
               <input
                 type="text"
                 placeholder="To address"
                 value={newTransaction.to}
-                onChange={(e) => setNewTransaction({...newTransaction, to: e.target.value})}
+                onChange={(e) => setNewTransaction({ ...newTransaction, to: e.target.value })}
               />
               <input
                 type="number"
                 placeholder="Amount"
                 value={newTransaction.amount || ''}
-                onChange={(e) => setNewTransaction({...newTransaction, amount: parseFloat(e.target.value) || 0})}
+                onChange={(e) =>
+                  setNewTransaction({ ...newTransaction, amount: parseFloat(e.target.value) || 0 })
+                }
                 min="0"
                 step="0.01"
               />
-              <button 
+              <button
                 onClick={handleAddTransaction}
                 disabled={!newTransaction.from || !newTransaction.to || newTransaction.amount <= 0}
                 className="add-transaction-btn"
@@ -138,14 +140,13 @@ export function ControlPanel() {
                 <h4>Pending Transactions ({transactions.length})</h4>
                 {transactions.map((tx, index) => (
                   <div key={tx.id} className="transaction-item">
-                    <span>{tx.from} → {tx.to}: {tx.amount}</span>
+                    <span>
+                      {tx.from} → {tx.to}: {tx.amount}
+                    </span>
                     <button onClick={() => removeTransaction(index)}>×</button>
                   </div>
                 ))}
-                <button 
-                  onClick={handleAddBlock}
-                  className="add-block-btn"
-                >
+                <button onClick={handleAddBlock} className="add-block-btn">
                   Add Block with Transactions
                 </button>
               </div>
@@ -162,12 +163,8 @@ export function ControlPanel() {
           </button>
           <div className="chain-stats">
             <div>Total Blocks: {state.blocks.length}</div>
-            <div>
-              Mined Blocks: {state.blocks.filter(b => b.isMined).length}
-            </div>
-            <div>
-              Mining: {state.blocks.filter(b => b.isMining).length}
-            </div>
+            <div>Mined Blocks: {state.blocks.filter((b) => b.isMined).length}</div>
+            <div>Mining: {state.blocks.filter((b) => b.isMining).length}</div>
           </div>
         </div>
       </div>
@@ -178,9 +175,7 @@ export function ControlPanel() {
           <div className={`status-item ${state.isValidChain ? 'valid' : 'invalid'}`}>
             Chain Validity: {state.isValidChain ? 'Valid' : 'Invalid'}
           </div>
-          <div className="status-item">
-            Current Difficulty: {state.difficulty} zeros required
-          </div>
+          <div className="status-item">Current Difficulty: {state.difficulty} zeros required</div>
         </div>
       </div>
     </div>

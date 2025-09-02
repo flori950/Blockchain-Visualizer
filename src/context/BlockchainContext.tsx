@@ -12,6 +12,7 @@ type BlockchainAction =
   | { type: 'UPDATE_BLOCK_DATA'; payload: { blockIndex: number; data: string | Transaction[] } }
   | { type: 'VALIDATE_CHAIN' }
   | { type: 'CREATE_FORK'; payload: { fromBlockIndex: number; data: string | Transaction[] } }
+  | { type: 'REORDER_BLOCKS'; payload: { fromIndex: number; toIndex: number } }
   | { type: 'RESET_CHAIN' };
 
 interface BlockchainContextType {
@@ -22,6 +23,7 @@ interface BlockchainContextType {
   selectBlock: (blockIndex: number | null) => void;
   updateBlockData: (blockIndex: number, data: string | Transaction[]) => void;
   createFork: (fromBlockIndex: number, data: string | Transaction[]) => void;
+  reorderBlocks: (fromIndex: number, toIndex: number) => void;
   resetChain: () => void;
 }
 
@@ -30,7 +32,7 @@ const initialState: BlockchainState = {
   difficulty: 2,
   isValidChain: true,
   selectedBlock: null,
-  miningProgress: {}
+  miningProgress: {},
 };
 
 function blockchainReducer(state: BlockchainState, action: BlockchainAction): BlockchainState {
@@ -58,29 +60,30 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
         if (index === 0) {
           return { ...block, isValid: true }; // Genesis block is always valid
         }
-        
+
         const isValidHash = BlockchainUtils.validateBlock(block, newBlocks[index - 1]);
-        const isMinedCorrectly = block.difficulty === 0 || 
+        const isMinedCorrectly =
+          block.difficulty === 0 ||
           (block.isMined && BlockchainUtils.isValidHash(block.hash, block.difficulty));
-        
+
         return {
           ...block,
-          isValid: isValidHash && (block.index === 0 || isMinedCorrectly || !block.isMined)
+          isValid: isValidHash && (block.index === 0 || isMinedCorrectly || !block.isMined),
         };
       });
 
       return {
         ...state,
         blocks: updatedBlocks,
-        isValidChain: BlockchainUtils.validateChain(updatedBlocks.filter(b => b.isMined || b.index === 0))
+        isValidChain: BlockchainUtils.validateChain(
+          updatedBlocks.filter((b) => b.isMined || b.index === 0)
+        ),
       };
     }
 
     case 'START_MINING': {
       const blocks = state.blocks.map((block, index) =>
-        index === action.payload.blockIndex
-          ? { ...block, isMining: true, isMined: false }
-          : block
+        index === action.payload.blockIndex ? { ...block, isMining: true, isMined: false } : block
       );
 
       return {
@@ -88,8 +91,8 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
         blocks,
         miningProgress: {
           ...state.miningProgress,
-          [action.payload.blockIndex]: 0
-        }
+          [action.payload.blockIndex]: 0,
+        },
       };
     }
 
@@ -98,8 +101,8 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
         ...state,
         miningProgress: {
           ...state.miningProgress,
-          [action.payload.blockIndex]: action.payload.nonce
-        }
+          [action.payload.blockIndex]: action.payload.nonce,
+        },
       };
     }
 
@@ -113,14 +116,15 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
         if (index === 0) {
           return { ...block, isValid: true }; // Genesis block is always valid
         }
-        
+
         const isValidHash = BlockchainUtils.validateBlock(block, blocks[index - 1]);
-        const isMinedCorrectly = block.difficulty === 0 || 
+        const isMinedCorrectly =
+          block.difficulty === 0 ||
           (block.isMined && BlockchainUtils.isValidHash(block.hash, block.difficulty));
-        
+
         return {
           ...block,
-          isValid: isValidHash && isMinedCorrectly
+          isValid: isValidHash && isMinedCorrectly,
         };
       });
 
@@ -130,22 +134,22 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
         isValidChain: BlockchainUtils.validateChain(updatedBlocks),
         miningProgress: {
           ...state.miningProgress,
-          [action.payload.blockIndex]: 0
-        }
+          [action.payload.blockIndex]: 0,
+        },
       };
     }
 
     case 'SET_DIFFICULTY': {
       return {
         ...state,
-        difficulty: action.payload.difficulty
+        difficulty: action.payload.difficulty,
       };
     }
 
     case 'SELECT_BLOCK': {
       return {
         ...state,
-        selectedBlock: action.payload.blockIndex
+        selectedBlock: action.payload.blockIndex,
       };
     }
 
@@ -156,9 +160,9 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
             ...block,
             data: action.payload.data,
             isMined: false,
-            nonce: 0
+            nonce: 0,
           };
-          
+
           // Recalculate hash without mining
           updatedBlock.hash = BlockchainUtils.calculateHash(
             updatedBlock.index,
@@ -178,45 +182,99 @@ function blockchainReducer(state: BlockchainState, action: BlockchainAction): Bl
         if (index === 0) {
           return { ...block, isValid: true }; // Genesis block is always valid
         }
-        
+
         if (index > action.payload.blockIndex) {
           return { ...block, isValid: false, isMined: false };
         }
-        
+
         const isValidHash = BlockchainUtils.validateBlock(block, blocks[index - 1]);
-        const isMinedCorrectly = block.difficulty === 0 || 
+        const isMinedCorrectly =
+          block.difficulty === 0 ||
           (block.isMined && BlockchainUtils.isValidHash(block.hash, block.difficulty));
-        
+
         return {
           ...block,
-          isValid: isValidHash && (block.index === 0 || isMinedCorrectly || !block.isMined)
+          isValid: isValidHash && (block.index === 0 || isMinedCorrectly || !block.isMined),
         };
       });
 
       return {
         ...state,
         blocks: updatedBlocks,
-        isValidChain: BlockchainUtils.validateChain(updatedBlocks.filter(b => b.isMined || b.index === 0))
+        isValidChain: BlockchainUtils.validateChain(
+          updatedBlocks.filter((b) => b.isMined || b.index === 0)
+        ),
       };
     }
 
     case 'VALIDATE_CHAIN': {
       const updatedBlocks = state.blocks.map((block, index) => ({
         ...block,
-        isValid: index === 0 || BlockchainUtils.validateBlock(block, state.blocks[index - 1])
+        isValid: index === 0 || BlockchainUtils.validateBlock(block, state.blocks[index - 1]),
       }));
 
       return {
         ...state,
         blocks: updatedBlocks,
-        isValidChain: BlockchainUtils.validateChain(updatedBlocks)
+        isValidChain: BlockchainUtils.validateChain(updatedBlocks),
       };
     }
 
     case 'RESET_CHAIN': {
       return {
         ...initialState,
-        difficulty: state.difficulty
+        difficulty: state.difficulty,
+      };
+    }
+
+    case 'REORDER_BLOCKS': {
+      const { fromIndex, toIndex } = action.payload;
+
+      // Don't allow reordering the genesis block
+      if (fromIndex === 0 || toIndex === 0) {
+        return state;
+      }
+
+      const blocks = [...state.blocks];
+      const [movedBlock] = blocks.splice(fromIndex, 1);
+      blocks.splice(toIndex, 0, movedBlock);
+
+      // Reindex all blocks and update their indices
+      const reindexedBlocks = blocks.map((block, index) => ({
+        ...block,
+        index,
+        isMined: false,
+        nonce: 0,
+        isValid: index === 0, // Only genesis block remains valid after reordering
+      }));
+
+      // Update previous hashes to maintain chain integrity
+      const updatedBlocks = reindexedBlocks.map((block, index) => {
+        if (index === 0) {
+          return block; // Genesis block unchanged
+        }
+
+        const newBlock = {
+          ...block,
+          previousHash: reindexedBlocks[index - 1].hash,
+        };
+
+        // Recalculate hash for the new position
+        newBlock.hash = BlockchainUtils.calculateHash(
+          newBlock.index,
+          newBlock.timestamp,
+          newBlock.data,
+          newBlock.previousHash,
+          newBlock.nonce
+        );
+
+        return newBlock;
+      });
+
+      return {
+        ...state,
+        blocks: updatedBlocks,
+        isValidChain: false, // Chain becomes invalid after reordering
       };
     }
 
@@ -234,28 +292,28 @@ export function BlockchainProvider({ children }: { children: React.ReactNode }) 
     dispatch({ type: 'ADD_BLOCK', payload: { data } });
   }, []);
 
-  const mineBlock = useCallback(async (blockIndex: number) => {
-    const block = state.blocks[blockIndex];
-    if (!block || block.isMining || block.isMined) return;
+  const mineBlock = useCallback(
+    async (blockIndex: number) => {
+      const block = state.blocks[blockIndex];
+      if (!block || block.isMining || block.isMined) return;
 
-    dispatch({ type: 'START_MINING', payload: { blockIndex } });
+      dispatch({ type: 'START_MINING', payload: { blockIndex } });
 
-    const blockToMine = { ...block };
-    const minedBlock = await BlockchainUtils.mineBlock(
-      blockToMine,
-      (nonce, hash) => {
+      const blockToMine = { ...block };
+      const minedBlock = await BlockchainUtils.mineBlock(blockToMine, (nonce, hash) => {
         dispatch({
           type: 'UPDATE_MINING_PROGRESS',
-          payload: { blockIndex, nonce, hash }
+          payload: { blockIndex, nonce, hash },
         });
-      }
-    );
+      });
 
-    dispatch({
-      type: 'COMPLETE_MINING',
-      payload: { blockIndex, block: minedBlock }
-    });
-  }, [state.blocks]);
+      dispatch({
+        type: 'COMPLETE_MINING',
+        payload: { blockIndex, block: minedBlock },
+      });
+    },
+    [state.blocks]
+  );
 
   const setDifficulty = useCallback((difficulty: number) => {
     dispatch({ type: 'SET_DIFFICULTY', payload: { difficulty } });
@@ -269,16 +327,23 @@ export function BlockchainProvider({ children }: { children: React.ReactNode }) 
     dispatch({ type: 'UPDATE_BLOCK_DATA', payload: { blockIndex, data } });
   }, []);
 
-  const createFork = useCallback((fromBlockIndex: number, data: string | Transaction[]) => {
-    // For now, just add a block - fork visualization can be enhanced later
-    const previousBlock = state.blocks[fromBlockIndex];
-    if (previousBlock) {
-      addBlock(data);
-    }
-  }, [state.blocks, addBlock]);
+  const createFork = useCallback(
+    (fromBlockIndex: number, data: string | Transaction[]) => {
+      // For now, just add a block - fork visualization can be enhanced later
+      const previousBlock = state.blocks[fromBlockIndex];
+      if (previousBlock) {
+        addBlock(data);
+      }
+    },
+    [state.blocks, addBlock]
+  );
 
   const resetChain = useCallback(() => {
     dispatch({ type: 'RESET_CHAIN' });
+  }, []);
+
+  const reorderBlocks = useCallback((fromIndex: number, toIndex: number) => {
+    dispatch({ type: 'REORDER_BLOCKS', payload: { fromIndex, toIndex } });
   }, []);
 
   return (
@@ -291,7 +356,8 @@ export function BlockchainProvider({ children }: { children: React.ReactNode }) 
         selectBlock,
         updateBlockData,
         createFork,
-        resetChain
+        reorderBlocks,
+        resetChain,
       }}
     >
       {children}

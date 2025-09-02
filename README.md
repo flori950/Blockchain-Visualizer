@@ -5,12 +5,14 @@ An interactive blockchain visualizer that demonstrates how blockchains work with
 ## 🌟 Features
 
 ### Core Features (MVP)
+
 - **Genesis Block**: Automatically created as the first block in the chain
 - **Add Block**: User can enter data (text or JSON) to create new blocks
 - **Live Hash Calculation**: Each block's hash is recalculated when data or previous hash changes
 - **Chain Validation**: Visual indication when blocks become invalid (turn red)
 
 ### Extended Features
+
 - **Proof-of-Work Simulation**: Adjustable difficulty slider (1-5 zeros)
 - **Mining Progress**: Real-time nonce counter and progress visualization
 - **Transaction Support**: Create blocks with multiple transactions instead of raw text
@@ -33,10 +35,12 @@ Visit the live demo: [https://yourserver.com/blockchain/](https://yourserver.com
 ## 📦 Installation & Development
 
 ### Prerequisites
+
 - Node.js 18 or higher
 - npm or yarn
 
 ### Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/flori950/blockchain-visualizer.git
@@ -113,6 +117,7 @@ npm run test:ui       # Interactive test UI
 Contributions are welcome! Please follow our development practices:
 
 ### Development Workflow
+
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Make your changes with tests
@@ -122,6 +127,7 @@ Contributions are welcome! Please follow our development practices:
 7. Open a Pull Request
 
 ### Code Quality
+
 - **ESLint** + **Prettier** for consistent code style
 - **TypeScript** for type safety
 - **Husky** pre-commit hooks for automated quality checks
@@ -135,6 +141,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **flori950**
+
 - GitHub: [@flori950](https://github.com/flori950)
 - LinkedIn: [Florian Jager](https://www.linkedin.com/in/florian-jager/)
 

@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -8,7 +8,7 @@ export default defineConfig({
   base: '/blockchain/',
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
   },
   test: {
     globals: true,
@@ -18,13 +18,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: [
-        'node_modules/',
-        'src/test/',
-        '**/*.d.ts',
-        '**/*.config.*',
-        'dist/'
-      ]
-    }
-  }
-})
+      exclude: ['node_modules/', 'src/test/', '**/*.d.ts', '**/*.config.*', 'dist/'],
+    },
+  },
+});

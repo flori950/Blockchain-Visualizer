@@ -10,9 +10,7 @@ export class BlockchainUtils {
     nonce: number = 0
   ): string {
     const dataString = typeof data === 'string' ? data : JSON.stringify(data);
-    return CryptoJS.SHA256(
-      index + timestamp + dataString + previousHash + nonce
-    ).toString();
+    return CryptoJS.SHA256(index + timestamp + dataString + previousHash + nonce).toString();
   }
 
   static isValidHash(hash: string, difficulty: number): boolean {
@@ -66,14 +64,17 @@ export class BlockchainUtils {
   static validateBlock(block: Block, previousBlock?: Block): boolean {
     // Check if it's the genesis block
     if (block.index === 0) {
-      return block.previousHash === '0' && 
-             block.hash === this.calculateHash(
-               block.index,
-               block.timestamp,
-               block.data,
-               block.previousHash,
-               block.nonce
-             );
+      return (
+        block.previousHash === '0' &&
+        block.hash ===
+          this.calculateHash(
+            block.index,
+            block.timestamp,
+            block.data,
+            block.previousHash,
+            block.nonce
+          )
+      );
     }
 
     if (!previousBlock) return false;
@@ -117,7 +118,7 @@ export class BlockchainUtils {
       difficulty: 0,
       isValid: true,
       isMining: false,
-      isMined: true
+      isMined: true,
     };
 
     block.hash = this.calculateHash(
@@ -147,7 +148,7 @@ export class BlockchainUtils {
       difficulty,
       isValid: false,
       isMining: false,
-      isMined: false
+      isMined: false,
     };
   }
 
@@ -161,7 +162,7 @@ export class BlockchainUtils {
       from,
       to,
       amount,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
   }
 }

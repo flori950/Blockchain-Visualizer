@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "config:base",
-    "schedule:weekdays"
-  ],
+  "extends": ["config:base", "schedule:weekdays"],
   "timezone": "UTC",
   "repositories": ["flori950/blockchain-visualizer"],
   "packageRules": [

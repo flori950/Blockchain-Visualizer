@@ -25,7 +25,7 @@ export function BlockVisualization3D() {
         <h3>🧊 3D Block Visualization</h3>
         <p>Visual representation of the blockchain as connected blocks</p>
       </div>
-      
+
       <div className="blocks-3d-container">
         <div className="blocks-3d-track">
           {state.blocks.map((block, index) => (
@@ -35,28 +35,34 @@ export function BlockVisualization3D() {
                   <div className="block-number">#{block.index}</div>
                   <div className="block-data">{getBlockContent(block)}</div>
                   <div className="block-status">
-                    {block.index === 0 ? '🔗' : 
-                     block.isMining ? '⚡' :
-                     block.isMined && block.isValid ? '✅' : 
-                     block.isMined && !block.isValid ? '❌' :
-                     '⏳'}
+                    {block.index === 0
+                      ? '🔗'
+                      : block.isMining
+                        ? '⚡'
+                        : block.isMined && block.isValid
+                          ? '✅'
+                          : block.isMined && !block.isValid
+                            ? '❌'
+                            : '⏳'}
                   </div>
                 </div>
                 <div className="block-face back">
-                  <div className="hash-display">
-                    {block.hash.substring(0, 8)}...
-                  </div>
+                  <div className="hash-display">{block.hash.substring(0, 8)}...</div>
                 </div>
                 <div className="block-face left"></div>
                 <div className="block-face right"></div>
                 <div className="block-face top"></div>
                 <div className="block-face bottom"></div>
               </div>
-              
+
               {index < state.blocks.length - 1 && (
-                <div className={`chain-link-3d ${
-                  state.blocks[index + 1].previousHash === block.hash ? 'connected-3d' : 'broken-3d'
-                }`}>
+                <div
+                  className={`chain-link-3d ${
+                    state.blocks[index + 1].previousHash === block.hash
+                      ? 'connected-3d'
+                      : 'broken-3d'
+                  }`}
+                >
                   <div className="link-cylinder"></div>
                 </div>
               )}

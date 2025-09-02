@@ -3,7 +3,7 @@
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .panel-section {
@@ -34,7 +34,7 @@
   color: #555;
 }
 
-.difficulty-controls input[type="range"] {
+.difficulty-controls input[type='range'] {
   width: 100%;
   max-width: 300px;
 }

@@ -2,51 +2,51 @@ name: Deploy to FTP Server
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm ci --legacy-peer-deps
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
 
-    - name: Setup Husky (Pre-commit hooks)
-      run: npm run prepare
+      - name: Setup Husky (Pre-commit hooks)
+        run: npm run prepare
 
-    - name: Check code formatting
-      run: npm run format:check
+      - name: Check code formatting
+        run: npm run format:check
 
-    - name: Lint code
-      run: npm run lint
+      - name: Lint code
+        run: npm run lint
 
-    - name: Run tests
-      run: npm test -- --run
+      - name: Run tests
+        run: npm test -- --run
 
-    - name: Generate test coverage
-      run: npm run test:coverage -- --run
+      - name: Generate test coverage
+        run: npm run test:coverage -- --run
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        run: npm run build
 
-    - name: Deploy to FTP Server
-      if: github.ref == 'refs/heads/master'
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/
-        server-dir: /blockchain/
+      - name: Deploy to FTP Server
+        if: github.ref == 'refs/heads/master'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /blockchain/

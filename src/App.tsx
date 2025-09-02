@@ -30,13 +30,13 @@ function App() {
               </div>
             </div>
           </header>
-          
+
           <main className="app-main">
             <ControlPanel />
             <BlockchainVisualization />
             <BlockVisualization3D />
           </main>
-          
+
           <Footer />
         </div>
       </BlockchainProvider>
