@@ -14,8 +14,21 @@ function App() {
         <div className="app">
           <SEO />
           <header className="app-header">
-            <h1>🔗 Blockchain Visualizer</h1>
-            <p>Interactive blockchain demonstration with proof-of-work mining</p>
+            <div className="header-content">
+              <div className="header-main">
+                <div className="header-icon">
+                  <span className="blockchain-icon">⛓️</span>
+                </div>
+                <div className="header-text">
+                  <h1 className="header-title">
+                    <span className="title-highlight">Blockchain</span> Visualizer
+                  </h1>
+                  <p className="header-subtitle">
+                    Interactive demonstration of blockchain technology with proof-of-work mining
+                  </p>
+                </div>
+              </div>
+            </div>
           </header>
           
           <main className="app-main">

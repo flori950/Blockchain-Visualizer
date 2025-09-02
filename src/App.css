@@ -11,12 +11,103 @@
 }
 
 .app-header {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 40px 20px;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 80% 60%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(75, 192, 192, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.header-icon {
+  animation: float 6s ease-in-out infinite;
+}
+
+.blockchain-icon {
+  font-size: 5rem;
+  display: block;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.header-text {
   text-align: center;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-title {
+  margin: 0 0 20px 0;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.title-highlight {
+  background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 50%, #4ecdc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.header-subtitle {
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+  66% {
+    transform: translateY(-5px) rotate(-3deg);
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .app-header h1 {
@@ -88,5 +179,52 @@ input, textarea, select {
   
   .app-main {
     padding: 15px 10px;
+  }
+}
+
+/* Enhanced responsive design for new header */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 60px 15px;
+  }
+  
+  .header-main {
+    gap: 25px;
+  }
+  
+  .blockchain-icon {
+    font-size: 4rem;
+  }
+  
+  .header-title {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+  }
+  
+  .header-subtitle {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 40px 10px;
+  }
+  
+  .header-main {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .blockchain-icon {
+    font-size: 3rem;
+  }
+  
+  .header-title {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+  
+  .header-subtitle {
+    font-size: clamp(0.9rem, 5vw, 1.1rem);
+    padding: 0 10px;
   }
 }

@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build-and-deploy:
+  test-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,10 +21,22 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: npm ci --legacy-peer-deps
+
+    - name: Setup Husky (Pre-commit hooks)
+      run: npm run prepare
+
+    - name: Check code formatting
+      run: npm run format:check
+
+    - name: Lint code
+      run: npm run lint
 
     - name: Run tests
       run: npm test -- --run
+
+    - name: Generate test coverage
+      run: npm run test:coverage -- --run
 
     - name: Build
       run: npm run build
