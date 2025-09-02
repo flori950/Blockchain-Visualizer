@@ -10,7 +10,8 @@ export default {
     'subject-max-length': [2, 'always', 100],
     'body-max-line-length': [2, 'always', 200],
   },
-};s = {
+};
+s = {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'type-enum': [

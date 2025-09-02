@@ -51,14 +51,37 @@
 
 .header-icon {
   animation: float 6s ease-in-out infinite;
+  perspective: 800px;
 }
 
-.genesis-block {
-  width: 80px;
-  height: 80px;
+.cube-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+}
+
+.cube {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  animation: cubeRotate 12s linear infinite;
+  transition: transform 0.3s ease;
+}
+
+.cube:hover {
+  animation-play-state: paused;
+  transform: scale(1.1);
+}
+
+.cube-face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
   border: 2px solid rgba(78, 205, 196, 0.6);
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,22 +89,50 @@
   font-weight: bold;
   color: white;
   box-shadow:
-    0 0 20px rgba(78, 205, 196, 0.4),
-    inset 0 0 20px rgba(78, 205, 196, 0.1);
+    0 0 15px rgba(78, 205, 196, 0.3),
+    inset 0 0 15px rgba(78, 205, 196, 0.1);
   backdrop-filter: blur(10px);
-  transform-style: preserve-3d;
-  animation: cubeRotate 8s linear infinite;
+  font-size: 0.8rem;
 }
 
-.genesis-block .block-number {
-  font-size: 1.5rem;
+.cube-face.front {
+  transform: translateZ(50px);
+}
+
+.cube-face.back {
+  transform: translateZ(-50px) rotateY(180deg);
+}
+
+.cube-face.right {
+  transform: rotateY(90deg) translateZ(50px);
+}
+
+.cube-face.left {
+  transform: rotateY(-90deg) translateZ(50px);
+}
+
+.cube-face.top {
+  transform: rotateX(90deg) translateZ(50px);
+}
+
+.cube-face.bottom {
+  transform: rotateX(-90deg) translateZ(50px);
+}
+
+.cube-face .block-number {
+  font-size: 1.4rem;
   color: #4ecdc4;
   text-shadow: 0 0 10px rgba(78, 205, 196, 0.8);
   margin-bottom: 4px;
 }
 
-.genesis-block .block-label {
-  font-size: 0.7rem;
+.cube-face .block-label,
+.cube-face .hash-text,
+.cube-face .block-text,
+.cube-face .chain-text,
+.cube-face .data-text,
+.cube-face .nonce-text {
+  font-size: 0.6rem;
   color: rgba(255, 255, 255, 0.9);
   text-transform: uppercase;
   letter-spacing: 1px;

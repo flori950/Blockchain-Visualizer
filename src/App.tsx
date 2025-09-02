@@ -17,9 +17,28 @@ function App() {
             <div className="header-content">
               <div className="header-main">
                 <div className="header-icon">
-                  <div className="genesis-block">
-                    <div className="block-number">#0</div>
-                    <div className="block-label">Genesis</div>
+                  <div className="cube-container">
+                    <div className="cube">
+                      <div className="cube-face front">
+                        <div className="block-number">#0</div>
+                        <div className="block-label">Genesis</div>
+                      </div>
+                      <div className="cube-face back">
+                        <div className="hash-text">Hash</div>
+                      </div>
+                      <div className="cube-face right">
+                        <div className="block-text">Block</div>
+                      </div>
+                      <div className="cube-face left">
+                        <div className="chain-text">Chain</div>
+                      </div>
+                      <div className="cube-face top">
+                        <div className="data-text">Data</div>
+                      </div>
+                      <div className="cube-face bottom">
+                        <div className="nonce-text">Nonce</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="header-text">
