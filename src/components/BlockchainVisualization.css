@@ -1,0 +1,134 @@
+.blockchain-visualization {
+  padding: 20px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.chain-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #eee;
+}
+
+.chain-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.8em;
+}
+
+.chain-status {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.chain-status.valid {
+  background: #d4edda;
+  color: #155724;
+}
+
+.chain-status.invalid {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.blocks-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  overflow-x: auto;
+  min-height: 400px;
+  scroll-behavior: smooth;
+}
+
+.chain-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+  padding: 0 10px;
+  animation: fadeInScale 0.5s ease-out;
+}
+
+.arrow {
+  font-size: 2em;
+  color: #007acc;
+  font-weight: bold;
+  margin-bottom: 8px;
+  animation: pulse 2s ease-in-out infinite;
+  transition: color 0.3s ease;
+}
+
+.chain-arrow:hover .arrow {
+  color: #005a9e;
+  transform: scale(1.2);
+}
+
+@keyframes fadeInScale {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.chain-arrow.connected .arrow {
+  color: #28a745;
+}
+
+.chain-arrow.disconnected .arrow {
+  color: #dc3545;
+  animation: brokenLink 1s ease-in-out infinite;
+}
+
+.chain-arrow.disconnected .hash-connection {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+@keyframes brokenLink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.hash-connection {
+  font-size: 0.7em;
+  color: #666;
+  text-align: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  max-width: 40px;
+  line-height: 1.2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .blockchain-visualization {
+    padding: 10px;
+  }
+
+  .chain-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .blocks-container {
+    gap: 15px;
+  }
+
+  .chain-arrow {
+    min-width: 40px;
+  }
+
+  .arrow {
+    font-size: 1.5em;
+  }
+
+  .hash-connection {
+    font-size: 0.6em;
+    max-width: 30px;
+  }
+}
