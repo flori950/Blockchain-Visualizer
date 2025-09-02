@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { Block as BlockType } from '../types/blockchain';
 import { useBlockchain } from '../hooks/useBlockchain';
 import './Block.css';
@@ -31,7 +31,6 @@ export function Block({
   isDragOver = false,
 }: BlockProps) {
   const { state } = useBlockchain();
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const miningProgress = state.miningProgress[block.index] || 0;
   const isGenesis = block.index === 0;
 
@@ -75,14 +74,12 @@ export function Block({
       e.preventDefault();
       return;
     }
-    setDraggedIndex(block.index);
     onDragStart?.(block.index);
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', block.index.toString());
   };
 
   const handleDragEnd = () => {
-    setDraggedIndex(null);
     onDragEnd?.();
   };
 

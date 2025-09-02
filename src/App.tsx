@@ -17,7 +17,10 @@ function App() {
             <div className="header-content">
               <div className="header-main">
                 <div className="header-icon">
-                  <span className="blockchain-icon">⛓️</span>
+                  <div className="genesis-block">
+                    <div className="block-number">#0</div>
+                    <div className="block-label">Genesis</div>
+                  </div>
                 </div>
                 <div className="header-text">
                   <h1 className="header-title">

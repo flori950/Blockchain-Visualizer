@@ -53,11 +53,47 @@
   animation: float 6s ease-in-out infinite;
 }
 
-.blockchain-icon {
-  font-size: 5rem;
-  display: block;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+.genesis-block {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+  border: 2px solid rgba(78, 205, 196, 0.6);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+  box-shadow:
+    0 0 20px rgba(78, 205, 196, 0.4),
+    inset 0 0 20px rgba(78, 205, 196, 0.1);
+  backdrop-filter: blur(10px);
+  transform-style: preserve-3d;
+  animation: cubeRotate 8s linear infinite;
+}
+
+.genesis-block .block-number {
+  font-size: 1.5rem;
+  color: #4ecdc4;
+  text-shadow: 0 0 10px rgba(78, 205, 196, 0.8);
+  margin-bottom: 4px;
+}
+
+.genesis-block .block-label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@keyframes cubeRotate {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
 }
 
 .header-text {
@@ -94,13 +130,13 @@
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
   33% {
-    transform: translateY(-15px) rotate(5deg);
+    transform: translateY(-10px);
   }
   66% {
-    transform: translateY(-5px) rotate(-3deg);
+    transform: translateY(-5px);
   }
 }
 
@@ -112,23 +148,6 @@
   50% {
     background-position: 100% 50%;
   }
-}
-
-.app-header h1 {
-  margin: 0 0 12px 0;
-  font-size: 2.5em;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.app-header p {
-  margin: 0;
-  font-size: 1.2em;
-  color: #666;
-  font-weight: 400;
 }
 
 .app-main {
