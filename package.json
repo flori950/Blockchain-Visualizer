@@ -3,7 +3,7 @@
   "description": "An interactive blockchain visualizer that demonstrates how blockchains work with proof-of-work mining, chain validation, and transaction handling",
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://yourserver.com/blockchain/",
+  "homepage": "https://blockchain.florian-hunter.de",
   "repository": {
     "type": "git",
     "url": "https://github.com/flori950/blockchain-visualizer.git"
