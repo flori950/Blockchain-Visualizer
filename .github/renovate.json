@@ -1,14 +1,15 @@
 {
-  "extends": ["config:base", "schedule:weekdays"],
+  "extends": ["config:recommended", "schedule:weekdays"],
   "timezone": "UTC",
-  "repositories": ["flori950/blockchain-visualizer"],
+  "semanticCommits": "enabled",
+  "commitMessagePrefix": "⬆️ ",
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["^@types/"],
+      "matchPackageNames": ["/^@types//"],
       "automerge": true
     },
     {
@@ -20,8 +21,6 @@
       "groupName": "react"
     }
   ],
-  "commitMessagePrefix": "⬆️ ",
-  "prTitle": "⬆️ Update {{depName}} to {{newVersion}}",
   "labels": ["dependencies"],
   "reviewersFromCodeOwners": true,
   "assigneesFromCodeOwners": true
