@@ -21,7 +21,7 @@ An interactive blockchain visualizer that demonstrates how blockchains work with
 
 ## 🚀 Live Demo
 
-Visit the live demo: [https://blockchain.florian-hunter.de//blockchain/](https://blockchain.florian-hunter.de//blockchain/)
+Visit the live demo: [https://blockchain.florian-hunter.de/](https://blockchain.florian-hunter.de/)
 
 ## 🛠️ Technologies Used
 
