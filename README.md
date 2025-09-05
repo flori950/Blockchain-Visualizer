@@ -145,12 +145,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - GitHub: [@flori950](https://github.com/flori950)
 - LinkedIn: [Florian Jager](https://www.linkedin.com/in/florian-jager/)
 
-## 🙏 Acknowledgments
-
-- Inspired by blockchain education needs
-- Built with modern React and TypeScript best practices
-- Designed for educational purposes and demonstration
-
----
-
 ⭐ Star this repository if you found it helpful!
