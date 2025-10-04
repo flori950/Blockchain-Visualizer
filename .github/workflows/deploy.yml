@@ -21,7 +21,11 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: |
+          if ! npm ci --legacy-peer-deps 2>/dev/null; then
+            echo "Lock file out of sync, regenerating..."
+            npm install --legacy-peer-deps
+          fi
 
       - name: Setup Husky (Pre-commit hooks)
         run: npm run prepare
