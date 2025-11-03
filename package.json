@@ -2,6 +2,9 @@
   "name": "blockchain-visualizer",
   "description": "An interactive blockchain visualizer that demonstrates how blockchains work with proof-of-work mining, chain validation, and transaction handling",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=18"
+  },
   "type": "module",
   "homepage": "https://blockchain.florian-hunter.de",
   "repository": {
