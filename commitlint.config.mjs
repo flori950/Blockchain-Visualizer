@@ -11,16 +11,3 @@ export default {
     'body-max-line-length': [2, 'always', 200],
   },
 };
-s = {
-  extends: ['@commitlint/config-conventional'],
-  rules: {
-    'type-enum': [
-      2,
-      'always',
-      ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'ci', 'perf', 'build'],
-    ],
-    'subject-case': [2, 'never', ['pascal-case', 'upper-case']],
-    'subject-max-length': [2, 'always', 100],
-    'body-max-line-length': [2, 'always', 100],
-  },
-};
