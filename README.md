@@ -36,8 +36,8 @@ Visit the live demo: [https://blockchain.florian-hunter.de/](https://blockchain.
 
 ### Prerequisites
 
-- Node.js 18 or higher
-- npm or yarn
+- Node.js 18 or higher (Node.js 24 recommended)
+- npm 9 or higher
 
 ### Setup
 
