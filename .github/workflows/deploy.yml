@@ -47,7 +47,7 @@ jobs:
 
       - name: Deploy to FTP Server
         if: github.ref == 'refs/heads/master'
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
