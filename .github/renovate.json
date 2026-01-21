@@ -9,7 +9,7 @@
       "automerge": true
     },
     {
-      "matchPackageNames": ["/^@types//"],
+      "matchPackageNames": ["/^@types\\//"],
       "automerge": true
     },
     {
